@@ -359,6 +359,39 @@ app.get('/stats', (req, res) => {
     })
 })
 
+app.get('/metrics', (req, res) => {
+    db.get("SELECT COUNT(*) AS count, COUNT(DISTINCT caller) AS callers FROM calls", (err, row) => {
+        let calls = row.count
+        let callers = row.callers
+        
+        db.all("SELECT selection, COUNT(*) AS count FROM menuselection GROUP BY selection", (err, msrow) => {
+            let selections = new Map()
+            console.log(`got ${msrow.length} rows`)
+            for(const r of msrow) {
+                console.log(`Got selection ${r.selection} with count ${r.count}`)
+                selections.set(r.selection, r.count)
+            }
+
+            let data = `# HELP phonetree_calls_total number of calls to the menu
+# TYPE phonetree_calls_total counter
+phonetree_calls_total{tree="emfcamp2024"} ${calls}
+
+# HELP phonetree_callers_total number of distinct callers
+# TYPE phonetree_callers_total counter
+phonetree_callers_total{tree="emfcamp2024"} ${callers}
+
+# HELP phonetree_menuselections_total number of menu selections
+# TYPE phonetree_menuselections_total counter
+`
+            for(const [key, value] of selections) {
+                data += `phonetree_menuselections_total{tree="emfcamp2024",selection="${key}"} ${value}\n`
+            }
+
+            res.send(data)
+        })
+    })
+})
+
 app.listen(port, () => {
     console.log(`EMF 2024 Stupid App listening on port ${port}`)
 })
