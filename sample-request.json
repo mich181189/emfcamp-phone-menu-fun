@@ -1,0 +1,99 @@
+{
+  sip: {
+    headers: {
+      via: 'SIP/2.0/UDP 90.155.21.62;rport=5060;branch=z9hG4bKXXDBKy328QFtQ',
+      'max-forwards': '70',
+      from: '"mich181189" <sip:2662@90.155.21.62:5060>;tag=03DZcyH25vy4g',
+      to: '<sip:2686@clients.sip.poc.emf.camp>',
+      'call-id': '29e94e14-918c-123d-659f-da065190733b',
+      cseq: '83565049 INVITE',
+      contact: '<sip:90.155.21.62:5060>',
+      'user-agent': 'Twinkle/1.10.3',
+      allow: 'INVITE, ACK, BYE, CANCEL, OPTIONS, PRACK, REFER, NOTIFY, SUBSCRIBE, INFO, MESSAGE',
+      supported: 'replaces, norefersub, timer, 100rel',
+      'content-type': 'application/sdp',
+      'content-length': '382',
+      'X-Account-Sid': '9351f46a-678c-43f5-b8a6-d4eb58d131af',
+      'X-CID': 'lgxvcqqqxelnsbn@fedora',
+      'X-Forwarded-For': '95.90.246.158',
+      'X-Authenticated-User': '2662@clients.sip.poc.emf.camp'
+    },
+    raw: 'INVITE sip:2686@clients.sip.poc.emf.camp SIP/2.0\r\n' +
+      'Via: SIP/2.0/UDP 90.155.21.62;rport=5060;branch=z9hG4bKXXDBKy328QFtQ\r\n' +
+      'Max-Forwards: 70\r\n' +
+      'From: "mich181189" <sip:2662@90.155.21.62:5060>;tag=03DZcyH25vy4g\r\n' +
+      'To: <sip:2686@clients.sip.poc.emf.camp>\r\n' +
+      'Call-ID: 29e94e14-918c-123d-659f-da065190733b\r\n' +
+      'CSeq: 83565049 INVITE\r\n' +
+      'Contact: <sip:90.155.21.62:5060>\r\n' +
+      'User-Agent: Twinkle/1.10.3\r\n' +
+      'Allow: INVITE, ACK, BYE, CANCEL, OPTIONS, PRACK, REFER, NOTIFY, SUBSCRIBE, INFO, MESSAGE\r\n' +
+      'Supported: replaces, norefersub, timer, 100rel\r\n' +
+      'Content-Type: application/sdp\r\n' +
+      'Content-Length: 382\r\n' +
+      'X-Account-Sid: 9351f46a-678c-43f5-b8a6-d4eb58d131af\r\n' +
+      'X-CID: lgxvcqqqxelnsbn@fedora\r\n' +
+      'X-Forwarded-For: 95.90.246.158\r\n' +
+      'X-Authenticated-User: 2662@clients.sip.poc.emf.camp\r\n' +
+      '\r\n' +
+      'v=0\r\n' +
+      'o=twinkle 1881182329 195345805 IN IP4 90.155.21.62\r\n' +
+      's=-\r\n' +
+      'c=IN IP4 90.155.21.62\r\n' +
+      't=0 0\r\n' +
+      'm=audio 42542 RTP/AVP 98 97 8 0 3 18 101\r\n' +
+      'a=rtpmap:98 speex/16000\r\n' +
+      'a=rtpmap:97 speex/8000\r\n' +
+      'a=rtpmap:8 PCMA/8000\r\n' +
+      'a=rtpmap:0 PCMU/8000\r\n' +
+      'a=rtpmap:3 GSM/8000\r\n' +
+      'a=rtpmap:18 G729/8000\r\n' +
+      'a=fmtp:18 annexb=no\r\n' +
+      'a=rtpmap:101 telephone-event/8000\r\n' +
+      'a=fmtp:101 0-15\r\n' +
+      'a=sendrecv\r\n' +
+      'a=rtcp:42543\r\n' +
+      'a=ptime:20\r\n',
+    body: 'v=0\r\n' +
+      'o=twinkle 1881182329 195345805 IN IP4 90.155.21.62\r\n' +
+      's=-\r\n' +
+      'c=IN IP4 90.155.21.62\r\n' +
+      't=0 0\r\n' +
+      'm=audio 42542 RTP/AVP 98 97 8 0 3 18 101\r\n' +
+      'a=rtpmap:98 speex/16000\r\n' +
+      'a=rtpmap:97 speex/8000\r\n' +
+      'a=rtpmap:8 PCMA/8000\r\n' +
+      'a=rtpmap:0 PCMU/8000\r\n' +
+      'a=rtpmap:3 GSM/8000\r\n' +
+      'a=rtpmap:18 G729/8000\r\n' +
+      'a=fmtp:18 annexb=no\r\n' +
+      'a=rtpmap:101 telephone-event/8000\r\n' +
+      'a=fmtp:101 0-15\r\n' +
+      'a=sendrecv\r\n' +
+      'a=rtcp:42543\r\n' +
+      'a=ptime:20\r\n',
+    method: 'INVITE',
+    version: '2.0',
+    uri: 'sip:2686@clients.sip.poc.emf.camp',
+    payload: [ [Object] ]
+  },
+  direction: 'inbound',
+  trace_id: '355c58d390543d058fd4c855d946618d',
+  caller_name: '"mich181189"',
+  call_sid: '68687a07-4f90-4a25-a7e8-facd6786e908',
+  account_sid: 'b408c908-1b09-44ff-b861-108e145c28a7',
+  application_sid: '556c9f06-aaf8-4ebb-b8c5-4c1c43584622',
+  from: '2662',
+  to: '2686',
+  call_id: '29e94e14-918c-123d-659f-da065190733b',
+  sip_status: 100,
+  sip_reason: 'Trying',
+  call_status: 'trying',
+  originating_sip_ip: '95.90.246.158',
+  local_sip_address: '10.244.1.150:5060',
+  service_provider_sid: '2708b1b3-2736-40ea-b502-c53d8396247f',
+  defaults: {
+    synthesizer: { vendor: 'aws', language: 'en-GB', voice: 'Brian' },
+    recognizer: { vendor: 'google', language: 'en-US' }
+  }
+}
