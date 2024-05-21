@@ -10,6 +10,7 @@ const db = new sqlite3.Database("/data/emf2024jambonz.sqlite")
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS calls (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, callername TEXT)")
     db.run("CREATE TABLE IF NOT EXISTS menuselection (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, selection TEXT)")
+    db.run("CREATE TABLE IF NOT EXISTS complaints (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, selection INTEGER)")
 })
 
 app.use(expressWinston.logger({
@@ -268,6 +269,24 @@ function getfilesfornumber(n) {
     return res
 }
 
+function complaints() {
+    return [
+        {
+            verb: "gather",
+            input: ["digits"],
+            dtmfBargein: true,
+            numDigits: 1,
+            timeout: 5,
+            actionHook: "https://jambonz.emf2024.michaelcullen.name/complaints",
+            play: {
+                url: [
+                        filename("complaints/complaints.mp3"),
+                    ]
+            }
+        }
+    ]
+}
+
 function menu() {
     return [
             {
@@ -281,6 +300,7 @@ function menu() {
                     url: [
                         filename("menu/options.mp3"),
                         filename("menu/options1-3.mp3"),
+                        filename("menu/4-complaints.mp3")
                         ],
                 }
             }
@@ -322,7 +342,8 @@ app.post('/dtmf', (req, res) => {
     } else if(req.body.digits == '3') {
         resp.push({verb: "play", url: filename("surprises/meowmix.mp3")})
     } else if(req.body.digits == '4') {
-        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+        res.json(resp.concat(complaints()))
+        return
     } else if(req.body.digits == '5') {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
     } else if(req.body.digits == '6') {
@@ -337,6 +358,51 @@ app.post('/dtmf', (req, res) => {
         resp.push({verb: "play", url: filename("menu/notadigit.mp3")})
     }
     res.json(resp.concat(menu()))
+})
+
+app.post('/complaints', (req, res) => {
+    let resp = []
+    console.log("Digits: " + req.body.digits)
+    let complaint = 0
+    if(req.body.digits == '0') {
+        // main menu
+        res.json(menu())
+        return;
+    } else if(req.body.digits == '1') {
+        // complain about 7
+        complaint = 7
+    } else if(req.body.digits == '2') {
+        // complain about 9
+        complaint = 9
+    } else if(req.body.digits == '3') {
+        // complain about 4
+        complaint = 4
+    } else if(req.body.digits == '4') {
+        // complain about 6
+        complaint = 6
+    } else if(req.body.digits == '5') {
+        // complain about 8
+        complaint = 8
+    } else if(req.body.digits == '6') {
+        // complain about 3
+        complaint = 3
+    } else if(req.body.digits == '7') {
+        // complain about 1
+        complaint = 1
+    } else if(req.body.digits == '8') {
+        // complain about 5
+        complaint = 5
+    } else if(req.body.digits == '9') {
+        // complain about 2
+        complaint = 2
+    } else {
+        resp.push({verb: "play", url: filename("menu/notadigit.mp3")})
+        res.json(resp.concat(complaints()))
+        return;
+    }
+    db.run("INSERT INTO complaints (caller, selection) VALUES(?,?)", [req.body.customerData?.number, complaint])
+    resp.push({verb: "play", url: [filename("complaints/your-complaint-about.mp3"), getfilesfordigits(complaint), filename("complaints/filed.mp3")]})
+    res.json(resp.concat(complaints()))
 })
 
 app.post('/status', (req, res) => {
