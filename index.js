@@ -7,6 +7,7 @@ const db = new sqlite3.Database("/data/emf2024jambonz.sqlite")
 
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS calls (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, callername TEXT)")
+    db.run("CREATE TABLE IF NOT EXISTS menuselection (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, selection TEXT)")
 })
 
 app.use('/files', express.static('static'))
@@ -298,6 +299,7 @@ app.post('/call', (req, res) => {
 app.post('/dtmf', (req, res) => {
     let resp = []
     console.log("Digits: " + req.body.digits)
+    db.run("INSERT INTO menuselection (caller, selection) VALUES(?,?)", [req.body.customerData?.number, req.body.digits])
     if(req.body.digits == '0') {
         resp.push({verb: "play", url: filename("menu/presszero.mp3")})
     } else if(req.body.digits == '1') {
@@ -327,6 +329,21 @@ app.post('/dtmf', (req, res) => {
 app.post('/status', (req, res) => {
     console.log("Status:\n" + req.body)
     res.status(202).end()
+})
+
+app.get('/stats', (req, res) => {
+    db.get("SELECT COUNT(*) AS count, COUNT(DISTINCT caller) AS callers FROM calls", (err, row) => {
+        db.get("SELECT COUNT(*) AS count FROM menuselection", (err, msrow) => {
+            let calls = row.count
+            let callers = row.callers
+            let menuselections = msrow.count
+            res.json({
+                calls: calls,
+                callers: callers,
+                menuchoices: menuselections,
+            })
+        })
+    })
 })
 
 app.listen(port, () => {
