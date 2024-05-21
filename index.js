@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const winston = require("winston")
+const expressWinston = require("express-winston")
 const port = 2600
 
 const sqlite3 = require('sqlite3').verbose();
@@ -10,8 +12,19 @@ db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS menuselection (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, selection TEXT)")
 })
 
+app.use(expressWinston.logger({
+    transports: [
+            new winston.transports.Console()
+        ],
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+}))
+
 app.use('/files', express.static('static'))
 app.use(express.json())
+
 
 app.get('/', (req, res) => {
     res.send("Nothing to see here...")

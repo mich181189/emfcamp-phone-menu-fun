@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
-    "sqlite3": "^5.1.7"
+    "express-winston": "^4.2.0",
+    "sqlite3": "^5.1.7",
+    "winston": "^3.13.0"
   }
 }
