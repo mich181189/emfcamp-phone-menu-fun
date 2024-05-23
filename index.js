@@ -295,12 +295,204 @@ function menu() {
                 dtmfBargein: true,
                 numDigits: 1,
                 timeout: 5,
-                actionHook: "https://jambonz.emf2024.michaelcullen.name/dtmf",
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/menu",
                 play: {
                     url: [
                         filename("menu/options.mp3"),
                         filename("menu/options1-3.mp3"),
-                        filename("menu/4-complaints.mp3")
+                        filename("menu/4-complaints.mp3"),
+                        filename("menu/5-animal.mp3"),
+                        filename("menu/6-bakedgoods.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function bakedgoods() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/baked",
+                play: {
+                    url: [
+                        filename("menu/bakedgoodsmenu.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+
+function animal() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal1",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/lettersmenu1.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_abc() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-abc.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_def() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-def.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_ghi() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-ghi.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_jkl() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-jkl.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_mno() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-mno.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_pqrs() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-pqrs.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_tuv() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-tuv.mp3"),
+                        ],
+                }
+            }
+        ]
+}
+
+function animal_wxyz() {
+    return [
+            {
+                verb: "gather",
+                input: ["digits"],
+                dtmfBargein: true,
+                numDigits: 1,
+                timeout: 5,
+                actionHook: "https://jambonz.emf2024.michaelcullen.name/animal_result",
+                play: {
+                    url: [
+                        filename("menu/options.mp3"),
+                        filename("menu/animals-wxyz.mp3"),
                         ],
                 }
             }
@@ -329,7 +521,7 @@ app.post('/call', (req, res) => {
     })
 })
 
-app.post('/dtmf', (req, res) => {
+app.post('/menu', (req, res) => {
     let resp = []
     console.log("Digits: " + req.body.digits)
     db.run("INSERT INTO menuselection (caller, selection) VALUES(?,?)", [req.body.customerData?.number, req.body.digits])
@@ -345,6 +537,37 @@ app.post('/dtmf', (req, res) => {
         res.json(resp.concat(complaints()))
         return
     } else if(req.body.digits == '5') {
+        resp.push({verb: "play", url: filename("menu/thankyou-animal.mp3")})
+        res.json(resp.concat(animal()))
+        return;
+    } else if(req.body.digits == '6') {
+        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+    } else if(req.body.digits == '7') {
+        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+    } else if(req.body.digits == '8') {
+        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+    } else if(req.body.digits == '9') {
+        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+    } else {
+        resp.push({verb: "play", url: filename("menu/notadigit.mp3")})
+    }
+    res.json(resp.concat(menu()))
+})
+
+app.post('/baked', (req, res) => {
+    let resp = []
+    console.log("Digits: " + req.body.digits)
+    if(req.body.digits == '0') {
+        resp.push({verb: "play", url: filename("menu/presszero.mp3")})
+    } else if(req.body.digits == '1') {
+        resp.push({verb: "play", url: filename("menu/abartischguterhababerkuechen.mp3")})
+    } else if(req.body.digits == '2') {
+        resp.push({verb: "play", url: filename("menu/rababerbarbarbaren.mp3")})
+    } else if(req.body.digits == '3') {
+        resp.push({verb: "play", url: filename("menu/barbarenbartbarbier.mp3")})
+    } else if(req.body.digits == '4') {
+        resp.push({verb: "play", url: filename("menu/rhabarbabarberababarenbarbeque.mp3")})
+    } else if(req.body.digits == '5') {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
     } else if(req.body.digits == '6') {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
@@ -356,6 +579,54 @@ app.post('/dtmf', (req, res) => {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
     } else {
         resp.push({verb: "play", url: filename("menu/notadigit.mp3")})
+    }
+    res.json(resp.concat(menu()))
+})
+
+app.post('/animal1', (req, res) => {
+    let resp = []
+    console.log("Digits: " + req.body.digits)
+    if(req.body.digits == '0') {
+        // return to the main menu
+        res.json(resp.concat(menu()))
+        return
+    } else if(req.body.digits == '1') {
+        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+    } else if(req.body.digits == '2') {
+        res.json(resp.concat(animal_abc()))
+        return
+    } else if(req.body.digits == '3') {
+        res.json(resp.concat(animal_def()))
+        return
+    } else if(req.body.digits == '4') {
+        res.json(resp.concat(animal_ghi()))
+        return
+    } else if(req.body.digits == '5') {
+        res.json(resp.concat(animal_jkl()))
+        return
+    } else if(req.body.digits == '6') {
+        res.json(resp.concat(animal_mno()))
+        return
+    } else if(req.body.digits == '7') {
+        res.json(resp.concat(animal_pqrs()))
+        return
+    } else if(req.body.digits == '8') {
+        res.json(resp.concat(animal_tuv()))
+        return
+    } else if(req.body.digits == '9') {
+        res.json(resp.concat(animal_wxyz()))
+        return
+    } else {
+        resp.push({verb: "play", url: filename("menu/notadigit.mp3")})
+    }
+    res.json(resp.concat(animal()))
+})
+
+app.post('/animal_result', (req, res) => {
+    let resp = []
+    console.log("Digits: " + req.body.digits)
+    if(req.body.digits != '0') {
+        resp.push({verb: "play", url: filename("menu/animal-noted.mp3")})
     }
     res.json(resp.concat(menu()))
 })
