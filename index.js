@@ -434,7 +434,6 @@ app.get('/metrics', (req, res) => {
             let selections = new Map()
             console.log(`got ${msrow.length} rows`)
             for(const r of msrow) {
-                console.log(`Got selection ${r.selection} with count ${r.count}`)
                 selections.set(r.selection, r.count)
             }
 
@@ -453,7 +452,21 @@ phonetree_callers_total{tree="emfcamp2024"} ${callers}
                 data += `phonetree_menuselections_total{tree="emfcamp2024",selection="${key}"} ${value}\n`
             }
 
-            res.send(data)
+            data += "#HELP phonetree_complaints_total number of complaints\n"
+            data += "#TYPE phonetree_complaints_total counter\n"
+
+            db.all("SELECT selection, COUNT(*) AS count FROM complaints GROUP BY selection", (err, crow) => {
+                 let complaints = new Map()
+                 for(const r of crow) {
+                    complaints.set(r.selection, r.count)
+                }
+
+                for(const [key, value] of complaints) {
+                    data += `phonetree_complaints_total{tree="emfcamp2024",selection="${key}"} ${value}\n`
+                }
+
+                res.send(data)
+            })
         })
     })
 })
