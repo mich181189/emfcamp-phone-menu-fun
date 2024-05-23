@@ -541,7 +541,8 @@ app.post('/menu', (req, res) => {
         res.json(resp.concat(animal()))
         return;
     } else if(req.body.digits == '6') {
-        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+        res.json(resp.concat(bakedgoods()))
+        return
     } else if(req.body.digits == '7') {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
     } else if(req.body.digits == '8') {
