@@ -20,5 +20,5 @@ jobs:
         password: ${{secrets.DOCKERHUB_TOKEN}}
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --tag mich181189/emf2024jambonz:latest && docker tag mich181189/emf2024jambonz:latest mich181189/emf2024jambonz:latestmich181189/emf2024jambonz:latest && docker push mich181189/emf2024jambonz:latest && docker push 
+      run: docker build . --tag mich181189/emf2024jambonz:latest && docker push mich181189/emf2024jambonz:latest
     
