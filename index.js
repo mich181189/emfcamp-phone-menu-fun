@@ -747,7 +747,7 @@ phonetree_callers_total{tree="emfcamp2024"} ${callers}
     })
 })
 
-app.get("/weather", (req, res) => weather.weather2text(res))
+app.post("/weather", (req, res) => weather.weather2text(res))
 app.post("/weather_result", (req, res) => weather.weather_response(res, req.body.digits))
 
 app.listen(port, () => {
