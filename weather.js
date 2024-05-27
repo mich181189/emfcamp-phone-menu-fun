@@ -39,7 +39,7 @@ client.on("message", (topic, message) => {
 })
 
 function weather2text(res) {
-    res.json(
+    res.json([
         {
           "verb": "gather",
           "actionHook": "https://jambonz.emf2024.michaelcullen.name/weather_result",
@@ -50,7 +50,7 @@ function weather2text(res) {
           "say": {
             "text": "Welcome to the EMF Camp Weather Hotline. For temperatures in degrees celsius, press 1. For temperatures in Farenheit, press 2. For temperatures in Kelvin, press 3. For temperatures in Rankine, press 4.",
           }
-        })
+        }])
 }
 
 function roundNum(n) {
@@ -148,7 +148,7 @@ function weather_response(res, digits) {
         }
     }
 
-    res.json(
+    res.json([
                 {
                     "verb": "say",
                     "text": "The temperature in HQ is currently " + numbers.tempin + " " + units + ". The temperature outside is currently " + numbers.temp + " " + units + " " +
@@ -156,7 +156,7 @@ function weather_response(res, digits) {
                     "Wind is blowing from the " + windDir(lastWeather.winddir) + " at " + roundNum(lastWeather.windspeed*3.6) + " kilometers per hour" + " with gusts of " + roundNum(lastWeather.windgust*3.6) + " kilometers per hour. " +
                     "Data is provided by the EMF Weather Center. Units may be guesses based on the numbers, because the documentation is wrong",
                 }
-            )
+            ])
 }
 
 
