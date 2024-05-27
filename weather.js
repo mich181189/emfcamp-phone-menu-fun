@@ -1,12 +1,8 @@
 const mqtt = require("mqtt")
 const client = mqtt.connect("mqtt://mqtt.emf.camp")
 
-function toKelvin(f) {
-    return ((f + 459.67)*5)/9;
-}
-
-function toCelsius(f) {
-    return ((f-32)*5)/9;
+function toFarenheit(c) {
+    return ((c*9)/5) + 32
 }
 
 let lastWeather = null;
@@ -26,13 +22,7 @@ client.on("connect", () => {
 client.on("message", (topic, message) => {
     if(topic == "emf/weather") {
         let data = JSON.parse(message);
-        let tempin = toCelsius(data.tempin)
-        let temp = toCelsius(data.temp)
-
         lastWeather = data
-
-        console.log("Temperature in HQ:", tempin)
-        console.log("Temperature outside:", temp)
     } else {
         console.log("Unexpected topic ", topic, " message:" + message)
     }
@@ -63,15 +53,6 @@ function roundNum1(n) {
 
 function getDigitsCelsius() {
     return {
-        tempin: roundNum(toCelsius(lastWeather.tempin)),
-        temp: roundNum(toCelsius(lastWeather.temp)),
-        humidityin: lastWeather.humidityin,
-        humidity: lastWeather.humidity,
-    }
-}
-
-function getDigitsFarenheit() {
-    return {
         tempin: roundNum(lastWeather.tempin),
         temp: roundNum(lastWeather.temp),
         humidityin: lastWeather.humidityin,
@@ -79,10 +60,19 @@ function getDigitsFarenheit() {
     }
 }
 
+function getDigitsFarenheit() {
+    return {
+        tempin: roundNum(toFarenheit(lastWeather.tempin)),
+        temp: roundNum(toFarenheit(lastWeather.temp)),
+        humidityin: lastWeather.humidityin,
+        humidity: lastWeather.humidity,
+    }
+}
+
 function getDigitsKelvin() {
     return {
-        tempin: roundNum(toCelsius(lastWeather.tempin)+273.15),
-        temp: roundNum(toCelsius(lastWeather.temp)+273.15),
+        tempin: roundNum(lastWeather.tempin+273.15),
+        temp: roundNum(lastWeather.temp+273.15),
         humidityin: lastWeather.humidityin,
         humidity: lastWeather.humidity,
     }
@@ -90,8 +80,8 @@ function getDigitsKelvin() {
 
 function getDigitsRankine() {
     return {
-        tempin: roundNum(lastWeather.tempin+491.67),
-        temp: roundNum(lastWeather.temp+491.67),
+        tempin: roundNum(toFarenheit(lastWeather.tempin)+491.67),
+        temp: roundNum(toFarenheit(lastWeather.temp)+491.67),
         humidityin: lastWeather.humidityin,
         humidity: lastWeather.humidity,
     }
