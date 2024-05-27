@@ -7,6 +7,8 @@ const port = 2600
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database("/data/emf2024jambonz.sqlite")
 
+const weather = require("./weather.js")
+
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS calls (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, callername TEXT)")
     db.run("CREATE TABLE IF NOT EXISTS menuselection (id INTEGER PRIMARY KEY AUTOINCREMENT, caller TEXT, selection TEXT)")
@@ -544,7 +546,9 @@ app.post('/menu', (req, res) => {
         res.json(resp.concat(bakedgoods()))
         return
     } else if(req.body.digits == '7') {
-        resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+        //resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
+        weather.weather2text(res);
+        return;
     } else if(req.body.digits == '8') {
         resp.push({verb: "play", url: filename("menu/optionmissing.mp3")})
     } else if(req.body.digits == '9') {
@@ -742,6 +746,9 @@ phonetree_callers_total{tree="emfcamp2024"} ${callers}
         })
     })
 })
+
+app.get("/weather", (req, res) => weather.weather2text(res))
+app.post("/weather_result", (req, res) => weather.weather_response(res, req.body.digits))
 
 app.listen(port, () => {
     console.log(`EMF 2024 Stupid App listening on port ${port}`)
