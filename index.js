@@ -305,6 +305,7 @@ function menu() {
                         filename("menu/4-complaints.mp3"),
                         filename("menu/5-animal.mp3"),
                         filename("menu/6-bakedgoods.mp3"),
+                        filename("menu/7-weather.mp3"),
                         ],
                 }
             }

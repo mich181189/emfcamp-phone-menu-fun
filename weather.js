@@ -57,6 +57,10 @@ function roundNum(n) {
     return Math.round(n*100)/100
 }
 
+function roundNum1(n) {
+    return Math.round(n*10)/10
+}
+
 function getDigitsCelsius() {
     return {
         tempin: roundNum(toCelsius(lastWeather.tempin)),
@@ -151,9 +155,9 @@ function weather_response(res, digits) {
     res.json([
                 {
                     "verb": "say",
-                    "text": "The temperature in HQ is currently " + numbers.tempin + " " + units + ". The temperature outside is currently " + numbers.temp + " " + units + " " +
+                    "text": "The temperature in HQ is currently " + numbers.tempin + " " + units + ". The temperature outside is currently " + numbers.temp + " " + units + ". " +
                     "Relative humidity inside HQ is currently " + numbers.humidityin + " percent. Outside, it is " + numbers.humidity + " percent. " +
-                    "Wind is blowing from the " + windDir(lastWeather.winddir) + " at " + roundNum(lastWeather.windspeed*3.6) + " kilometers per hour" + " with gusts of " + roundNum(lastWeather.windgust*3.6) + " kilometers per hour. " +
+                    "Wind is blowing from the " + windDir(lastWeather.winddir) + " at " + roundNum1(lastWeather.windspeed*3.6) + " kilometers per hour" + " with gusts of " + roundNum1(lastWeather.windgust*3.6) + " kilometers per hour. " +
                     "Data is provided by the EMF Weather Center. Units may be guesses based on the numbers, because the documentation is wrong",
                 }
             ])
