@@ -159,7 +159,8 @@ function weather_response(res, digits) {
                     "Relative humidity inside HQ is currently " + numbers.humidityin + " percent. Outside, it is " + numbers.humidity + " percent. " +
                     "Wind is blowing from the " + windDir(lastWeather.winddir) + " at " + roundNum1(lastWeather.windspeed*3.6) + " kilometers per hour" + " with gusts of " + roundNum1(lastWeather.windgust*3.6) + " kilometers per hour. " +
                     "Data is provided by the EMF Weather Center. Units may be guesses based on the numbers, because the documentation is wrong",
-                }
+                },
+                { "verb": "hangup" }
             ])
 }
 
